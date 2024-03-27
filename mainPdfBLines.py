@@ -42,8 +42,8 @@ def main():
                             imgPath = os.path.join(trainImagesPath,fileNameFull)
                             cv2.imwrite(imgPath,image)
                             
-                            cv2.imshow("image", image)
-                            cv2.waitKey()
+                            # cv2.imshow("image", image)
+                            # cv2.waitKey()
                     except Exception as e:
                         pass
                         
