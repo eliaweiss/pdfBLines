@@ -12,6 +12,13 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "mainCrop.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "mainCrop.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "mainPdfBLines.py",
             "type": "debugpy",
             "request": "launch",
