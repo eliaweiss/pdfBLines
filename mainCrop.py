@@ -95,19 +95,28 @@ def main():
         img = Image.open(image_path).convert('RGB')
         mask = Image.open(mask_path).convert('L')
 
-        crops = create_crops(img)
-        reconstructed_image = reconstruct_image(crops, img.size)
-        # reconstructed_image.show()
-        cv2.imshow("reconstructed_image",np.array(reconstructed_image))
-        
+        cropsImg = create_crops(img)
         cropsMask = create_crops(mask)
-        reconstructed_mask = reconstruct_image(cropsMask, mask.size)
-        cv2.namedWindow("reconstructed_mask", cv2.WINDOW_NORMAL)
+        assert len(cropsMask) == len(cropsImg)
         
-        cv2.moveWindow("reconstructed_mask", 650, 0)  
+        for i, (imgCrop, maskCrop) in enumerate(zip(cropsImg, cropsMask)):
+            # is_all_zero = np.all(np.array(maskCrop) == 0)
+            is_all_zero = np.array(maskCrop).sum() / (maskCrop.size[0]*maskCrop.size[1]) < 0.2
+            if is_all_zero:
+                continue
+            cv2.imshow("imgCrop",np.array(imgCrop))
+            cv2.waitKey()
+            
+        # reconstructed_image = reconstruct_image(crops, img.size)
+        # cv2.imshow("reconstructed_image",np.array(reconstructed_image))
         
-        cv2.imshow("reconstructed_mask",np.array(reconstructed_mask))        
-        cv2.waitKey(0)
+        # reconstructed_mask = reconstruct_image(cropsMask, mask.size)
+        # cv2.namedWindow("reconstructed_mask", cv2.WINDOW_NORMAL)
+        
+        # cv2.moveWindow("reconstructed_mask", 650, 0)  
+        
+        # cv2.imshow("reconstructed_mask",np.array(reconstructed_mask))        
+        # cv2.waitKey(0)
     
     
     
