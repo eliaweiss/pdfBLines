@@ -83,8 +83,8 @@ def reconstruct_image(crops, original_size):
     return reconstructed_img
 
 def main():
-    rootDirSource = "dataset1/train"
-    rootDirTarget = "datasetCrop/train"
+    rootDirSource = "dataset1/test"
+    rootDirTarget = "datasetCrop/test"
     imageFiles = os.listdir(rootDirSource)
     imageFiles = list(filter(lambda x:"jpg" in x,imageFiles))
     print(len(imageFiles))
