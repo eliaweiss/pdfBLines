@@ -87,13 +87,27 @@ def main():
     imageFiles = os.listdir(rootDirSource)
     imageFiles = list(filter(lambda x:"jpg" in x,imageFiles))
     print(len(imageFiles))
-    image_path = os.path.join(rootDirSource, imageFiles[0])
-    
-    img = Image.open(image_path).convert('RGB')
+    for imageFile in imageFiles:
+        maskFile = imageFile.split(".")[0] + "_mask.png"
+        image_path = os.path.join(rootDirSource, imageFile)
+        mask_path = os.path.join(rootDirSource, maskFile)
+        
+        img = Image.open(image_path).convert('RGB')
+        mask = Image.open(mask_path).convert('L')
 
-    crops = create_crops(img)
-    reconstructed_image = reconstruct_image(crops, img.size)
-    reconstructed_image.show()
+        crops = create_crops(img)
+        reconstructed_image = reconstruct_image(crops, img.size)
+        # reconstructed_image.show()
+        cv2.imshow("reconstructed_image",np.array(reconstructed_image))
+        
+        cropsMask = create_crops(mask)
+        reconstructed_mask = reconstruct_image(cropsMask, mask.size)
+        cv2.namedWindow("reconstructed_mask", cv2.WINDOW_NORMAL)
+        
+        cv2.moveWindow("reconstructed_mask", 650, 0)  
+        
+        cv2.imshow("reconstructed_mask",np.array(reconstructed_mask))        
+        cv2.waitKey(0)
     
     
     
