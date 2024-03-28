@@ -84,11 +84,13 @@ def reconstruct_image(crops, original_size):
 
 def main():
     rootDirSource = "dataset1/train"
+    rootDirTarget = "datasetCrop/train"
     imageFiles = os.listdir(rootDirSource)
     imageFiles = list(filter(lambda x:"jpg" in x,imageFiles))
     print(len(imageFiles))
     for imageFile in imageFiles:
-        maskFile = imageFile.split(".")[0] + "_mask.png"
+        baseName = imageFile.split(".")[0]
+        maskFile = baseName + "_mask.png"
         image_path = os.path.join(rootDirSource, imageFile)
         mask_path = os.path.join(rootDirSource, maskFile)
         
@@ -104,8 +106,14 @@ def main():
             is_all_zero = np.array(maskCrop).sum() / (maskCrop.size[0]*maskCrop.size[1]) < 0.2
             if is_all_zero:
                 continue
-            cv2.imshow("imgCrop",np.array(imgCrop))
-            cv2.waitKey()
+            imageFile = f"{baseName}_{i}.jpg"
+            maskFile = f"{baseName}_{i}_mask.png"
+            image_path_target = os.path.join(rootDirTarget, imageFile)
+            mask_path_target = os.path.join(rootDirTarget, maskFile)   
+            imgCrop.save(image_path_target)
+            maskCrop.save(mask_path_target)   
+            # cv2.imshow("imgCrop",np.array(imgCrop))
+            # cv2.waitKey()
             
         # reconstructed_image = reconstruct_image(crops, img.size)
         # cv2.imshow("reconstructed_image",np.array(reconstructed_image))
